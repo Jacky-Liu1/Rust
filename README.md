@@ -1,7 +1,7 @@
 # Rust
 - https://doc.rust-lang.org/book/title-page.html
 
-## Notes
+## Notes: Rust Tool System/Attributes
 1. Rust compiler plays a gatekeeper role by refusing to compile code with elusive bugs(i.e. concurrency bugs)
 - For example, low-level code is prrone to a variety of subtle bugs, which in most other languages can be caught only through extensive testing and careful code review by experienced developers
 
@@ -27,9 +27,19 @@
 - Compiling and running executabale -> cargo run
 - Cargo check: checks your code to make sure it compiles but doesn't produce an executable
 - Building for release -> cargo build --release  (compiles with optimization in target/release/)
+- Updating a Crate -> cargo update
+- Build documentation -> cargo doc --open
 
+## Notes: Rust Language/Syntax
+1. Immutable/mutable
+- Variables are immutable by default
+- To make a variable mutable, we add `mut` before the variable name
+
+2. Reference
+- `&` 
 
 
 
 ### Terminologies
 - Crates: packages of code
+- Associated function: a function that's implemented on aa type(i.e. `new` in `String::new()`)
