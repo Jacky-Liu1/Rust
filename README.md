@@ -32,11 +32,32 @@
 
 ## Notes: Rust Language/Syntax
 1. Immutable/mutable
-- Variables are immutable by default
+- Variables are immutable by default(can't reassign variable)
 - To make a variable mutable, we add `mut` before the variable name
 
-2. Reference
-- `&` 
+2. Overflow/underflow(panic in debug mode -> wrap around in release mode)
+
+3. Out-of-bound array access -> not possible
+
+4. Statements and Expressions
+- Statement: instructions that perform some action and do not return a value
+`
+fn main() {
+    let y = 6;
+}
+`
+- Exressions evaluate to a resulting value (NOTE: NO SEMILCOLON AT THE END!!!)
+`
+fn main() {
+    let y = {
+        let x = 3;
+        x + 1
+    };
+
+    println!("The value of y is: {}", y);
+}
+`
+
 
 
 
