@@ -42,14 +42,14 @@
 4. Statements and Expressions
 - Statement: instructions that perform some action and do not return a value
 
-`code`
+```
 fn main() {
     let y = 6;
 }
-`code`
+```
 
 - Exressions evaluate to a resulting value (NOTE: NO SEMILCOLON AT THE END!!!)
-`code`
+```
 fn main() {
     let y = {
         let x = 3;
@@ -58,7 +58,7 @@ fn main() {
 
     println!("The value of y is: {}", y);
 }
-`code`
+```
 
 
 
