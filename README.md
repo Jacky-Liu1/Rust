@@ -92,6 +92,9 @@ fn main() {
  - Lets you reference a contiguous sequence of elements in a collection rather than the whole collection
  - A kind of reference, so it does not have ownership 
 
+### Notes: Structs
+1. Structs, Tuple Structs
+2. Can have methods and associated functions that aren't methods (kinda like constructors) in impl
 
 
 ### Terminologies
