@@ -60,9 +60,42 @@ fn main() {
 }
 ```
 
+### Notes: Rust Ownership
+1. Ownership
+  - Enables Rust to make memory safety guarantees without needing a garbage collector
+  - Ownership: set of rules that governs how a Rust program manages memory
+  - Other languages use a garbage collector that scans for unused memory or make programmers manage their own memory
+  - In Rust, memory is managed through a system of ownership with a set of rules that the compiler checks
+  - Ownership rules:
+    - Each value in rust has aa variable that's called its called
+    - There can only be one owner at a time
+    - When the owner goes out of scope, the value will be dropped 
+
+2. References and Borrowing
+  - Since variables are dropped if it goes out-of-scope when passed into a function, we can't use the variables again unless if we return it as a tuple in the function
+  - We use a reference instead
+  - Reference: is like pointer in that it's an address we can follow to access data stored at that address that is owned by some other variable
+    - Unlike a pointer, reference is guaranteed to point to a valid value of a particular type
+  - Borrrowing: action of creating a reference  
+    - Note: can't modify when borrowing since references are immutable
+    - Mutable references -> add `&mut`
+      - Can only have one mutable reference to a paarticular piece of data at a time (to prevent data races at compile time)
+        - Data race:
+          1. Two or more pointers access the same data at the same time
+          2. At least one of the pointers is being used to write to the data
+          3. There's no mechanism being used to synchronize access to the data (concurrency)
+  - Cannot have a mutable reference while having an immutable one to the same value
+  - Dangling pointer: a pointer that references a location in memory that may have been given to someone else - by freeing some memory while preserving a pointer to that memory
+    - Rust guarantees that references will never be dangling references
+
+3. The Slice Type
+ - Lets you reference a contiguous sequence of elements in a collection rather than the whole collection
+ - A kind of reference, so it does not have ownership 
 
 
 
 ### Terminologies
 - Crates: packages of code
 - Associated function: a function that's implemented on aa type(i.e. `new` in `String::new()`)
+- Double free error: two variables pointing to the same data on the heap. If one of these variables go out-of-scope, the heap data will be drop
+  - Note: I believe this opens in other languages, but not Rust
