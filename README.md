@@ -99,6 +99,11 @@ fn main() {
 
 ### Notes: Enums and Patterrn Matching
 - A way of defining custom data types in a different way than you do with structs
+- Option enum -> allows null & non-null type whereas other types 
+- `match` -> contrrol flow construct that allows you to compare a value against a series of patterns and then execute code based on which pattern matches
+- `other` -> like default in switch statemetn
+- `_` -> use when we don't want to use the catch all 
+1. `if let` -> less verbose way to handle values that match one pattern while ignoring the restk
 ```
 enum IpAddrKind {
     V4,
@@ -117,6 +122,34 @@ let home = IpAddr::V4(127, 0, 0, 1);
 
 let loopback = IpAddr::V6(String::from("::1"));
 
+struct Ipv4Addr {
+    // --snip--
+}
+
+struct Ipv6Addr {
+    // --snip--
+}
+
+enum IpAddr {
+    V4(Ipv4Addr),
+    V6(Ipv6Addr),
+}
+
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
+
+impl Message {
+      fn call(&self) {
+          // method body would be defined here
+      }
+  }
+
+  let m = Message::Write(String::from("hello"));
+  m.call();
 
 
 ```
