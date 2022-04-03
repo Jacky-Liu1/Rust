@@ -97,6 +97,31 @@ fn main() {
 2. Can have methods and associated functions that aren't methods (kinda like constructors) in impl
 
 
+### Notes: Enums and Patterrn Matching
+- A way of defining custom data types in a different way than you do with structs
+```
+enum IpAddrKind {
+    V4,
+    V6,
+}
+
+let four = IpAddrKind::V4;
+let six = IpAddrKind::V6;
+
+enum IpAddr {
+    V4(u8, u8, u8, u8),
+    V6(String),
+}
+
+let home = IpAddr::V4(127, 0, 0, 1);
+
+let loopback = IpAddr::V6(String::from("::1"));
+
+
+
+```
+
+
 ### Terminologies
 - Crates: packages of code
 - Associated function: a function that's implemented on aa type(i.e. `new` in `String::new()`)
