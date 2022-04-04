@@ -150,9 +150,87 @@ impl Message {
 
   let m = Message::Write(String::from("hello"));
   m.call();
-
-
 ```
+
+### Notes: Collections
+- vector, string, hash map
+- Stored on the heap
+1. vectors -> `Vec<T>`
+- store more than one value in a single data structure with values next to each other in memory
+- `let v: Vec<i32> = Vec::new();`
+- `let v = vec![1,2,3];`
+- dynamic vectors need to be mutable
+- vectors are freed when it goes out of scope
+- reading elements of vectors
+  - ```
+    let v = vec![1, 2, 3, 4, 5];
+
+    let third: &i32 = &v[2];
+    println!("The third element is {}", third);
+
+    match v.get(2) {
+        Some(third) => println!("The third element is {}", third),
+        None => println!("There is no third element."),
+    }
+    ```
+- `get()` returns None if out-of-bound, `&v[100]` will crash if out-of-bound
+
+2. Strings
+- Rust has one string type in the coer language which is the strign slice `str` (borowed `&str`)
+- `String` type is provided by Rust's standard library rather than coded into the core language
+  - it's a growable, mutable, owned, UTF-8 encoded string type
+  - string concatenation -> `s.push_str("hello")` -> takes a string slice so no ownership of the parameter
+  ```
+    let s1 = String::from("Hello, ");
+    let s2 = String::from("world!");
+    let s3 = s1 + &s2; // note s1 has been moved here and can no longer be used
+    let s = format!("{}-{}-{}", s1, s2, s3);
+  ```
+  - indexing -> indexing into a string is often a bad idea because it's not clear what the return type of the string-indexing operation should be: a byte value, character, grapheme cluster, or str slice
+
+3. Hash Maps
+- `let mut scores = HashMap::new();`
+```
+    use std::collections::HashMap;
+
+    let field_name = String::from("Favorite color");
+    let field_value = String::from("Blue");
+
+    let mut map = HashMap::new();
+    map.insert(field_name, field_value);
+    // field_name and field_value are invalid at this point, try using them and
+    // see what compiler error you get!
+```
+- overwriting a value
+  ```
+    let mut scores = HashMap::new();
+    scores.insert(String::from("Blue"), 10);
+    scores.insert(String::from("Blue"), 25);
+  ```
+- Only inserting a value if the key has no value
+  ```
+    let mut scores = HashMap::new();
+    scores.insert(String::from("Blue"), 10);
+    scores.entry(String::from("Yellow")).or_insert(50);
+    scores.entry(String::from("Blue")).or_insert(50);
+  ```
+- Updating a value based on the old value
+  ```
+    let text = "hello world wonderful world";
+
+    let mut map = HashMap::new();
+
+    for word in text.split_whitespace() {
+        let count = map.entry(word).or_insert(0);
+        *count += 1;
+    }
+
+    println!("{:?}", map);
+  ```
+
+
+
+
 
 
 ### Terminologies
