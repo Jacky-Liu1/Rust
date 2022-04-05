@@ -370,8 +370,11 @@ impl Message {
   ```
 
 ### Automated Tests
-
-
+- A test in Rust is a function that's annotated with the test attribute
+- Attributes: metadata about pieces of Rust code
+- `#[test]`
+- Generate test folder/file -> `cargo new adder --lib`
+- Run tests -> cargo test
 
 
 
