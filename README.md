@@ -296,6 +296,88 @@ impl Message {
   - Panic is useful when the code could end up in a bad state
   - Result should be used when errors are expected
 
+
+### Generics, Traits, and Lifetimes
+1. Generics: abstract stand-ins for conrete types or other properties
+  - Can be used in functions, methods, structs, enums, and others??
+  - Monomorphization: the process of turning generic code into specific code by filling in the concrete types that are used when compiled
+2. Traits: tells the Rust compiler about functionality a particular type has and can share with other types (interfaces in other languages)
+  - Using traits to define functions that accept many different types
+    ```
+      pub fn notify(item: &impl Summary) { // accepts any type that implements the specified trait
+          println!("Breaking news! {}", item.summarize());
+      }
+
+      pub fn notify<T: Summary>(item: &T) {  // same thing as function above
+          println!("Breaking news! {}", item.summarize());
+      }
+    ```
+  - Specifying multiple trait bounds with the `+` syntax
+    ```
+      pub fn notify(item: &(impl Summary + Display)) {
+      
+      pub fn notify<T: Summary + Display>(item: &T) {
+    ```
+  - `where` 
+    ```
+      fn some_function<T, U>(t: &T, u: &U) -> i32
+          where T: Display + Clone,
+                U: Clone + Debug
+      {
+    ```
+  - Returning types that implements traits (impl Return_type)
+
+```
+  pub trait Summary {
+      fn summarize(&self) -> String;
+  }
+
+  pub struct NewsArticle {
+      pub headline: String,
+      pub location: String,
+      pub author: String,
+      pub content: String,
+  }
+
+  impl Summary for NewsArticle {
+      fn summarize(&self) -> String {
+          format!("{}, by {} ({})", self.headline, self.author, self.location)
+      }
+  }
+
+  pub struct Tweet {
+      pub username: String,
+      pub content: String,
+      pub reply: bool,
+      pub retweet: bool,
+  }
+
+  impl Summary for Tweet {
+      fn summarize(&self) -> String {
+          format!("{}: {}", self.username, self.content)
+      }
+  }
+```
+
+3. Lifetimes: scope for which a reference is valid
+  - Preventing dangling references with lifetimes
+  - Lifetime annonations don't change how long any of the references live
+    - Rather, it describes the realtionships ofthe lifetimes of multiple references to each other without affecting the lifetimes
+  ```
+    &i32        // a reference
+    &'a i32     // a reference with an explicit lifetime
+    &'a mut i32 // a mutable reference with an explicit lifetime
+  ```
+
+### Automated Tests
+
+
+
+
+
+
+
+
 ### Terminologies
 - Crates: packages of code
 - Associated function: a function that's implemented on aa type(i.e. `new` in `String::new()`)
