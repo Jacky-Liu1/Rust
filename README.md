@@ -1,7 +1,7 @@
 # Rust
 - https://doc.rust-lang.org/book/title-page.html
 
-## Notes: Rust Tool System/Attributes
+## Rust Tool System/Attributes
 1. Rust compiler plays a gatekeeper role by refusing to compile code with elusive bugs(i.e. concurrency bugs)
 - For example, low-level code is prrone to a variety of subtle bugs, which in most other languages can be caught only through extensive testing and careful code review by experienced developers
 
@@ -30,7 +30,7 @@
 - Updating a Crate -> cargo update
 - Build documentation -> cargo doc --open
 
-## Notes: Rust Language/Syntax
+## Rust Language/Syntax
 1. Immutable/mutable
 - Variables are immutable by default(can't reassign variable)
 - To make a variable mutable, we add `mut` before the variable name
@@ -60,7 +60,7 @@ fn main() {
 }
 ```
 
-### Notes: Rust Ownership
+### Rust Ownership
 1. Ownership
   - Enables Rust to make memory safety guarantees without needing a garbage collector
   - Ownership: set of rules that governs how a Rust program manages memory
@@ -92,12 +92,12 @@ fn main() {
  - Lets you reference a contiguous sequence of elements in a collection rather than the whole collection
  - A kind of reference, so it does not have ownership 
 
-### Notes: Structs
+### Structs
 1. Structs, Tuple Structs
 2. Can have methods and associated functions that aren't methods (kinda like constructors) in impl
 
 
-### Notes: Enums and Patterrn Matching
+### Enums and Patterrn Matching
 - A way of defining custom data types in a different way than you do with structs
 - Option enum -> allows null & non-null type whereas other types 
 - `match` -> contrrol flow construct that allows you to compare a value against a series of patterns and then execute code based on which pattern matches
@@ -152,7 +152,7 @@ impl Message {
   m.call();
 ```
 
-### Notes: Collections
+### Collections
 - vector, string, hash map
 - Stored on the heap
 1. vectors -> `Vec<T>`
@@ -228,10 +228,73 @@ impl Message {
     println!("{:?}", map);
   ```
 
+### Error Handling
+1. Unrecoverable errors with `panic!`
+  - when `panic!` macro executes, the program will print a failure message, unwind and clean up the stacck, and quit
+    - unwinding: Rust walks back up the stack and cleans up the data from each function it encounters   
+    - abort: the alternative to unwinding. It ends the program without cleaning it. OS will clean it up later
+      - To use this, change `panic = "abort"` in Cargo.toml
+  - `panic!("crash")`
+2. Recoverable errors with `Result`
+  - `unwrap()` -> a shortcut method that is implemented just like the `match` expression
+    - If Result value is Ok variant, unwrap will rerturn Ok, otherwise it will panic
+    - `let f = File::open("hello.txt").unwrap();let f = File::open("hello.txt").unwrap();`
+  - `expect(msg)` -> similar to unwrap, lets us choose the pannic! error message
+    - `let f = File::open("hello.txt").expect("Failed to open hello.txt");`
+  - A shorrtcut for propagating errors: the `?` operator
+    - `?`: continue if Ok, otherwise returrn Err
+    - We’re only allowed to use the ? operator in a function that returns Result, Option, or another type that implements FromResidual
+    ```
+      fn read_username_from_file() -> Result<String, io::Error> {
+          let mut f = File::open("hello.txt")?;
+          let mut s = String::new();
+          f.read_to_string(&mut s)?;
+          // Or File::open("hello.txt")?.read_to_string(&mut s)?;
+          Ok(s)
+      }
+    ```
 
+  ```
+    enum Result<T, E> {
+      Ok(T),
+      Err(E),
+    }
 
+    fn main() {
+        let f = File::open("hello.txt");
 
+        let f = match f {
+            Ok(file) => file,
+            Err(error) => match error.kind() {
+                ErrorKind::NotFound => match File::create("hello.txt") {
+                    Ok(fc) => fc,
+                    Err(e) => panic!("Problem creating the file: {:?}", e),
+                },
+                other_error => {
+                    panic!("Problem opening the file: {:?}", other_error)
+                }
+            },
+        };
+    }
 
+    fn main() {
+        let f = File::open("hello.txt").unwrap_or_else(|error| {
+            if error.kind() == ErrorKind::NotFound {
+                File::create("hello.txt").unwrap_or_else(|error| {
+                    panic!("Problem creating the file: {:?}", error);
+                })
+            } else {
+                panic!("Problem opening the file: {:?}", error);
+            }
+        });
+    }
+  ```
+
+  3. To panic! or Not to panic!
+  - Usually not to panic!
+  - Panic! helps when prototyping and developing
+  - Panic is useful when the code could end up in a bad state
+  - Result should be used when errors are expected
 
 ### Terminologies
 - Crates: packages of code
