@@ -375,6 +375,15 @@ impl Message {
 - `#[test]`
 - Generate test folder/file -> `cargo new adder --lib`
 - Run tests -> cargo test
+  - The default behavior is to run all tests in parallel and capture output generated during test runs
+  - `cargo test -- --test-threads=1` run tests with 1 thread(not parallel)
+- `use super::*;` -> anything we define int he outer module is available to this `tests` module
+- `#[should_panic]`
+- `cargo test -- --show-output`
+- `#[ignore]`
+- `cargo test -- --ignored:`
+- `#[cfg(test)]` tells Rust to compile and run the test code only when cargo test is ran, not cargo build
+
 
 
 
