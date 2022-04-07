@@ -385,8 +385,18 @@ impl Message {
 - `#[cfg(test)]` tells Rust to compile and run the test code only when cargo test is ran, not cargo build
 
 
-
-
+### Functional Language Features: iterators and closures
+- Functional style often includes using fuctions as values by passing them in arguments
+- Closures: anonymous functions you can save in a variable or pass as arguments to other functions
+  - Can be stored in struct (Fn(u32) -> u32) 
+    - `FnOnce` consumes the variables it captures from its enclosing scope, known as the closure’s environment. To consume the captured variables, the closure must take ownership of these variables and move them into the closure when it is defined. The Once part of the name represents the fact that the closure can’t take ownership of the same variables more than once, so it can be called only once.
+    - `FnMut` can change the environment because it mutably borrows values.
+    - `Fn` borrows values from the environment immutably.
+    - `move`  force the closure to take ownership of the values it uses in the environment
+  - Caching
+- Iterator - allows you to perform some task on a sequence of items in turn
+  - Are lazy - no effect unitl you call methods that consume the iterator to use it up
+  - `map`, `filter`, `zip`, next
 
 
 
